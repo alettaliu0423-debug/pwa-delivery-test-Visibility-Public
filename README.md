@@ -1,0 +1,1 @@
+WordQuest PWA Delivery Test - GitHub write access verification.
