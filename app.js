@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'PWA-TEST-0.1.1';
+const VERSION = 'PWA-TEST-0.1.2';
 const DB_NAME = 'pwa-delivery-test-v1';
 const $ = id => document.getElementById(id);
 let db, registration;

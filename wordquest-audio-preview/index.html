@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173947">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; media-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>WordQuest · 六词美音试听</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef4f6;color:#18313e;font:18px/1.65 system-ui,sans-serif}main{max-width:980px;margin:auto;padding:28px 20px}header{margin-bottom:24px}h1{font-size:clamp(26px,4vw,38px);line-height:1.3;margin:8px 0}h2{margin:0;font-size:27px}.tag{color:#456774;font-size:15px}.intro{max-width:760px}.players{display:grid;grid-template-columns:1fr 1fr;gap:22px}article{background:#fff;border:1px solid #d4e2e8;border-radius:20px;padding:24px;min-width:0;box-shadow:0 6px 24px #18313e08}.voice{color:#456774;margin:4px 0 18px}.actions{display:flex;gap:12px;flex-wrap:wrap}button{font:inherit;font-weight:700;min-height:56px;padding:13px 20px;border:0;border-radius:12px;cursor:pointer;touch-action:manipulation}.play{background:#126b73;color:#fff;flex:1}.replay{background:#e7f0f4;color:#18313e}button:focus-visible,a:focus-visible{outline:3px solid #c17a00;outline-offset:4px}audio{display:block;width:100%;margin-top:22px}.status{min-height:3.3em;margin-bottom:0;color:#456774;overflow-wrap:anywhere}.status.error{color:#a62020}.notes{margin-top:26px;padding:20px;background:#fff;border-radius:16px}.notes p{margin:10px 0}a{color:#005b78}.words{font-weight:600;overflow-wrap:anywhere}footer{font-size:15px;color:#456774;margin-top:24px}@media(max-width:680px){main{padding:20px 14px}.players{grid-template-columns:1fr}article{padding:22px}button{min-height:60px}}
+</style>
+</head>
+<body><main>
+<header><span class="tag">WordQuest · 3B试听候选 · WQ-AUDIO-PREVIEW-0.1.0</span><h1>六词美式英语 · 选一选喜欢的声音</h1>
+<p class="intro">点击 A 或 B 即可在线播放。可以暂停、继续或从头重播；切换时上一段会自动暂停。无需登录或安装软件。</p>
+<p class="words" lang="en-US">crystal · happy · feather · ribbon · mineral · curious</p></header>
+<div class="players">
+<article aria-labelledby="title-a"><h2 id="title-a">A：<span lang="en-US">af_heart</span></h2><p class="voice">约41秒 · 合成美音 · 正常语速</p>
+<div class="actions"><button type="button" class="play" data-play="a" aria-controls="audio-a">播放 A</button><button type="button" class="replay" data-replay="a" aria-controls="audio-a">从头重播 A</button></div>
+<audio id="audio-a" controls preload="none" aria-label="A af_heart 连续试听"><source src="./sampler-A.mp3" type="audio/mpeg"></audio>
+<p id="status-a" class="status" role="status" aria-live="polite">准备好了，点击“播放 A”。</p></article>
+<article aria-labelledby="title-b"><h2 id="title-b">B：<span lang="en-US">af_bella</span></h2><p class="voice">约40秒 · 合成美音 · 正常语速</p>
+<div class="actions"><button type="button" class="play" data-play="b" aria-controls="audio-b">播放 B</button><button type="button" class="replay" data-replay="b" aria-controls="audio-b">从头重播 B</button></div>
+<audio id="audio-b" controls preload="none" aria-label="B af_bella 连续试听"><source src="./sampler-B.mp3" type="audio/mpeg"></audio>
+<p id="status-b" class="status" role="status" aria-live="polite">准备好了，点击“播放 B”。</p></article>
+</div>
+<section class="notes" aria-label="试听说明"><p>两段内容和顺序完全相同：每个词依次播放<strong>单词 → 例句 → 搭配</strong>，共六词。请比较自然度、重音、元音、辅音、词尾和句子节奏。</p>
+<p>此页需要联网，不承诺离线播放。播放失败时可确认网络后再次点击播放；不会自动改用系统朗读。</p>
+<p>请在对话中反馈：<strong>A、B或都不满意</strong>，以及需要重做的具体词或句子。页面不收集反馈、录音或个人信息。</p></section>
+<footer>原始审核MP3未经重新合成或转码。Kokoro模型：Apache-2.0；kokoro-onnx：MIT。<a href="./licenses/kokoro-APACHE-2.0.txt">Apache许可</a> · <a href="./licenses/kokoro-onnx-MIT.txt">MIT许可</a>。试听尚待家长确认，未替换正式WordQuest音频。</footer>
+<noscript><p>浏览器未启用JavaScript，请使用上方两个原生音频播放器；自定义播放按钮需要JavaScript。</p></noscript>
+</main><script>
+'use strict';
+const tracks = ['a', 'b'].map(id => ({id, request: 0, failed: false, audio: document.getElementById('audio-' + id), button: document.querySelector('[data-play="' + id + '"]'), status: document.getElementById('status-' + id)}));
+function report(track, text, error = false) { track.status.textContent = text; track.status.classList.toggle('error', error); }
+function exclusive(track) { tracks.forEach(other => { if (other !== track) { other.request++; other.audio.pause(); } }); }
+function failure(track, error) {
+  track.failed = true; track.request++; track.audio.pause();
+  track.button.textContent = '重试 ' + track.id.toUpperCase();
+  const code = track.audio.error?.code;
+  const message = error?.name === 'NotAllowedError' ? '浏览器暂未允许播放，请再次直接点击播放按钮。'
+    : code === 3 ? '音频播放失败：浏览器未能解码这段MP3，请重试；若仍失败，请告知所用浏览器。'
+    : code === 4 ? '音频播放失败：资源暂不可用或浏览器不支持，请确认联网后再点击播放重试。'
+    : '音频播放失败，请确认已联网，再点击播放重试。';
+  report(track, message, true);
+}
+async function start(track, restart = false) {
+  exclusive(track);
+  const attempt = ++track.request;
+  const retry = track.failed || track.audio.error || track.audio.networkState === HTMLMediaElement.NETWORK_NO_SOURCE;
+  track.failed = false;
+  try {
+    if (retry) track.audio.load();
+    if (restart || track.audio.ended) track.audio.currentTime = 0;
+    report(track, '正在载入音频…');
+    await track.audio.play();
+  } catch (error) {
+    // A quick switch can interrupt an earlier pending play; it is not a media failure.
+    if (attempt !== track.request || (error.name === 'AbortError' && track.audio.paused)) return;
+    failure(track, error);
+  }
+}
+tracks.forEach(track => {
+  const label = track.id.toUpperCase();
+  track.button.addEventListener('click', () => { if (!track.audio.paused && !track.failed) { track.request++; track.audio.pause(); } else start(track); });
+  document.querySelector('[data-replay="' + track.id + '"]').addEventListener('click', () => start(track, true));
+  track.audio.addEventListener('play', () => { exclusive(track); track.button.textContent = '暂停 ' + label; });
+  track.audio.addEventListener('playing', () => { if (!track.failed && !track.audio.paused) report(track, '正在播放 ' + label + '，可随时暂停或重播。'); });
+  track.audio.addEventListener('pause', () => { if (track.failed) return; track.button.textContent = '继续播放 ' + label; if (!track.audio.ended && !track.audio.error) report(track, '已暂停 ' + label + '。'); });
+  track.audio.addEventListener('ended', () => { track.button.textContent = '播放 ' + label; report(track, label + ' 播放结束，可以再次试听。'); });
+  track.audio.addEventListener('waiting', () => { if (!track.failed) report(track, '正在缓冲，请稍候…'); });
+  track.audio.addEventListener('error', () => failure(track));
+  // Some browsers report a failed <source> only on that source element.
+  track.audio.querySelector('source').addEventListener('error', () => failure(track));
+});
+</script></body></html>

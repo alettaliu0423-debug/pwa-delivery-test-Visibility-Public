@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'PWA-TEST-0.1.1';
+const VERSION = 'PWA-TEST-0.1.2';
 const PREFIX = 'pwa-delivery-test-cache-';
 const CACHE = PREFIX + VERSION;
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
@@ -15,6 +15,10 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   const scope = new URL(self.registration.scope);
   if (event.request.method !== 'GET' || url.origin !== scope.origin || !url.pathname.startsWith(scope.pathname)) return;
+  // Online preview is a separate document; never substitute the PWA shell or
+  // intercept media Range requests. No preview cache or database is created.
+  const preview = new URL('./wordquest-audio-preview/', scope).pathname;
+  if (url.pathname === preview.slice(0, -1) || url.pathname.startsWith(preview)) return;
   event.respondWith((async () => {
     const cache = await caches.open(CACHE);
     if (event.request.mode === 'navigate') return (await cache.match('./index.html')) || fetch(event.request);

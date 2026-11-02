@@ -2,15 +2,20 @@
 
 版本：WQ-3B-SAMPLE-0.1.0。等待家长试听，未替换正式音频。
 
-## 平板直接下载
+## 平板直接在线播放
 
-- [下载 A：af_heart 连续试听 MP3（约41秒）](https://github.com/alettaliu0423-debug/pwa-delivery-test-Visibility-Public/raw/refs/heads/main/wordquest-audio-preview/sampler-A.mp3)
-- [下载 B：af_bella 连续试听 MP3（约40秒）](https://github.com/alettaliu0423-debug/pwa-delivery-test-Visibility-Public/raw/refs/heads/main/wordquest-audio-preview/sampler-B.mp3)
-- [阅读六词教学预览](teaching-preview.md)
+[打开A/B独立试听网页](https://alettaliu0423-debug.github.io/pwa-delivery-test-Visibility-Public/wordquest-audio-preview/)
 
-点击下载，完成后在平板“文件/下载”中打开MP3。若浏览器直接出现播放器，
-也可直接播放或使用浏览器的下载选项。无需安装开发工具、运行服务器或处理代码。
-GitHub及平板的实际下载、播放结果仍需用户确认。
+点击“播放 A”或“播放 B”，可暂停、继续和从头重播，切换时自动暂停上一段。
+不需要登录、下载、安装软件或使用开发工具。
+
+如果曾安装旧测试PWA，请先打开[原测试站根网址](https://alettaliu0423-debug.github.io/pwa-delivery-test-Visibility-Public/)，
+在那里点击“联网检查更新”，待PWA-TEST-0.1.2就绪后点击“启用新版本并重新载入”，
+再打开试听网址。旧SW可能把试听子路径返回为原首页，请回到上述根网址操作更新，
+不要在被拦截的子路径页面寻找更新入口。
+不要清除缓存或网站数据。播放与音质仍须华为平板实际验收。
+
+[阅读六词教学预览](teaching-preview.md)
 
 两段顺序相同：crystal、happy、feather、ribbon、mineral、curious；
 每词依次播放单词、代表例句、代表搭配。均为合成美音，en-US，速度1.0，
@@ -34,7 +39,8 @@ GitHub及平板的实际下载、播放结果仍需用户确认。
 本目录只提供两段合辑，清单中的其他单条音频未上传。
 
 此目录公开可读，不包含个人信息、学习记录、数据库、录音采集或备份。
-不修改原PWA测试文件或工作流，不发布到GitHub Pages，不运行Service Worker。
+试听页通过现有GitHub Pages发布。原测试PWA保持计数、离线与用户确认更新功能；
+Service Worker对试听目录放行。试听页不注册自己的Service Worker，不读写数据库。
 
 请反馈：A / B / 都不满意，以及具体需要重做的词或句子。
 未经试听确认，不替换正式WordQuest音频。
