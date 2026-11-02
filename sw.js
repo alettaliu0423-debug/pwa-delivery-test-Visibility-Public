@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'PWA-TEST-0.1.0';
+const VERSION = 'PWA-TEST-0.1.1';
 const PREFIX = 'pwa-delivery-test-cache-';
 const CACHE = PREFIX + VERSION;
 const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
@@ -9,14 +9,8 @@ self.addEventListener('install', event => {
     await cache.addAll(ASSETS.map(path => new Request(new URL(path, self.registration.scope), { cache: 'reload' })));
   })());
 });
-self.addEventListener('activate', event => {
-  event.waitUntil((async () => {
-    await self.clients.claim();
-    // Remove only this independent test's old caches. Never touch IndexedDB.
-    const names = await caches.keys();
-    await Promise.all(names.filter(name => name.startsWith(PREFIX) && name !== CACHE).map(name => caches.delete(name)));
-  })());
-});
+// Activation does not claim clients, remove caches, or touch IndexedDB.
+// Existing pages retain their resources; ACTIVATE below remains user-initiated.
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   const scope = new URL(self.registration.scope);
