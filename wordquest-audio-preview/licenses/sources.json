@@ -1,0 +1,20 @@
+[
+  {
+    "file": "kokoro-APACHE-2.0.txt",
+    "url": "https://raw.githubusercontent.com/hexgrad/kokoro/main/LICENSE",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "retrievedAt": "2026-11-02T13:48:16.656945+00:00"
+  },
+  {
+    "file": "kokoro-onnx-MIT.txt",
+    "url": "https://raw.githubusercontent.com/thewh1teagle/kokoro-onnx/main/LICENSE",
+    "sha256": "f61fdd0217de9ece8fa699912848d91187d84879fc2e689f0906d0c1299e955e",
+    "retrievedAt": "2026-11-02T13:48:16.730142+00:00"
+  },
+  {
+    "file": "kokoro-onnx-upstream-readme.md",
+    "url": "https://raw.githubusercontent.com/thewh1teagle/kokoro-onnx/main/README.md",
+    "sha256": "26c1abe64de52f1c22fe17e95b45c5aa3767604ab704ee851994d22c7c4e6582",
+    "retrievedAt": "2026-11-02T13:48:16.869672+00:00"
+  }
+]
